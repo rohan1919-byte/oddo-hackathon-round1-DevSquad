@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Swap Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                        },
+                        secondary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gradient-to-br from-primary-50 via-white to-secondary-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-primary-600 to-secondary-600 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
+                        <i class="fas fa-exchange-alt text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-2xl">Skill Swap</h1>
+                        <p class="text-primary-100 text-sm">Connect • Learn • Grow</p>
+                    </div>
+                    <span id="admin-badge" class="ml-2 px-3 py-1 bg-yellow-400 text-primary-800 rounded-full text-xs font-semibold hidden">
+                        <i class="fas fa-crown mr-1"></i>ADMIN
+                    </span>
+                </div>
+                <div id="auth-section">
+                    <!-- Login/Register forms will be inserted here -->
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Admin Message Banner -->
+    <div id="admin-message" class="bg-gradient-to-r from-yellow-100 to-orange-100 text-yellow-800 text-center py-3 text-sm border-b border-yellow-200 hidden">
+        <div class="max-w-7xl mx-auto px-4">
+            <i class="fas fa-bullhorn mr-2"></i>
+            <!-- Admin messages will be displayed here -->
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-xl transform transition-all duration-300 hidden">
+        <div class="flex items-center">
+            <i id="notification-icon" class="mr-3"></i>
+            <span id="notification-text"></span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto p-6">
+        <div class="flex gap-8">
+            <!-- Sidebar Navigation -->
+            <nav id="sidebar" class="w-64 bg-white rounded-2xl shadow-lg p-6 h-fit hidden">
+                <div class="space-y-2">
+                    <div class="mb-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center text-white">
+                                <i class="fas fa-user text-lg"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-gray-800" id="user-name">User</div>
+                                <div class="text-sm text-gray-500" id="user-email">user@example.com</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-primary-50 transition-all duration-200 flex items-center gap-3" data-tab="browse">
+                        <i class="fas fa-search text-primary-600 w-5"></i>
+                        <span>Browse Skills</span>
+                    </button>
+                    <button class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-primary-50 transition-all duration-200 flex items-center gap-3" data-tab="profile">
+                        <i class="fas fa-user-edit text-primary-600 w-5"></i>
+                        <span>My Profile</span>
+                    </button>
+                    <button class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-primary-50 transition-all duration-200 flex items-center gap-3" data-tab="swaps">
+                        <i class="fas fa-handshake text-primary-600 w-5"></i>
+                        <span>My Swaps</span>
+                    </button>
+                    <button id="admin-tab" class="nav-btn w-full text-left px-4 py-3 rounded-xl hover:bg-primary-50 transition-all duration-200 flex items-center gap-3 hidden" data-tab="admin">
+                        <i class="fas fa-shield-alt text-primary-600 w-5"></i>
+                        <span>Admin Panel</span>
+                    </button>
+                </div>
+            </nav>
+
+            <!-- Main Content Area -->
+            <main class="flex-1">
+                <div id="welcome-screen" class="text-center py-20">
+                    <div class="max-w-2xl mx-auto">
+                        <div class="w-24 h-24 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-8">
+                            <i class="fas fa-exchange-alt text-white text-3xl"></i>
+                        </div>
+                        <h2 class="text-4xl font-bold text-gray-800 mb-4">Welcome to Skill Swap</h2>
+                        <p class="text-xl text-gray-600 mb-8">Connect with people, share your skills, and learn from others in our vibrant community!</p>
+                        <div class="flex justify-center gap-4">
+                            <button onclick="showLoginModal()" class="px-8 py-3 bg-gradient-to-r from-primary-600 to-secondary-600 text-white rounded-xl hover:shadow-lg transition-all duration-200 font-semibold">
+                                <i class="fas fa-sign-in-alt mr-2"></i>Login
+                            </button>
+                            <button onclick="showRegisterModal()" class="px-8 py-3 bg-white text-primary-600 border-2 border-primary-600 rounded-xl hover:bg-primary-50 transition-all duration-200 font-semibold">
+                                <i class="fas fa-user-plus mr-2"></i>Register
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Content sections -->
+                <div id="content-sections" class="hidden">
+                    <!-- Browse Section -->
+                    <div id="browse-section" class="content-section">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">Discover Skills</h2>
+                            <p class="text-gray-600">Find people with skills you want to learn and offer your expertise in return</p>
+                        </div>
+                        <div class="mb-6">
+                            <div class="relative">
+                                <i class="fas fa-search absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                                <input type="text" id="search-input" placeholder="Search by skill (e.g., Cooking, Programming, Yoga)" 
+                                       class="w-full pl-12 pr-4 py-4 border-2 border-gray-200 rounded-xl focus:border-primary-500 focus:outline-none transition-all duration-200 text-lg">
+                            </div>
+                        </div>
+                        <div id="users-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                            <!-- Users will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Profile Section -->
+                    <div id="profile-section" class="content-section hidden">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">My Profile</h2>
+                            <p class="text-gray-600">Manage your skills, availability, and profile settings</p>
+                        </div>
+                        <div id="profile-content" class="max-w-2xl mx-auto">
+                            <!-- Profile content will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Swaps Section -->
+                    <div id="swaps-section" class="content-section hidden">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">My Swaps</h2>
+                            <p class="text-gray-600">Manage your skill swap requests and track your learning journey</p>
+                        </div>
+                        <div id="swaps-content">
+                            <!-- Swaps content will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Admin Section -->
+                    <div id="admin-section" class="content-section hidden">
+                        <div class="mb-8">
+                            <h2 class="text-3xl font-bold text-gray-800 mb-2">Admin Panel</h2>
+                            <p class="text-gray-600">Manage the platform, moderate content, and view analytics</p>
+                        </div>
+                        <div id="admin-content">
+                            <!-- Admin content will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-8 mt-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <div class="w-8 h-8 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center">
+                    <i class="fas fa-exchange-alt text-sm"></i>
+                </div>
+                <span class="font-bold text-xl">Skill Swap</span>
+            </div>
+            <p class="text-gray-400 mb-4">Connect • Learn • Grow Together</p>
+            <div class="text-sm text-gray-500">
+                &copy; <span id="current-year"></span> Skill Swap Platform. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modals -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 backdrop-blur-sm">
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div id="modal-content" class="bg-white rounded-2xl shadow-2xl transform transition-all duration-300 max-w-md w-full max-h-[90vh] overflow-hidden flex flex-col">
+                <!-- Modal content will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html> 
